@@ -8,7 +8,7 @@ const Footer = () => {
         <div class="col-md-4 d-flex align-items-center">
           <Link to="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"
           ></Link>
-          <span class="text-muted">© 2020 Tasty Waves, Inc</span>
+          <span class="text-muted">© 2023 Tasty Waves, Inc. Developed by Dev Pandhi</span>
         </div>
       </footer>
     </div>
