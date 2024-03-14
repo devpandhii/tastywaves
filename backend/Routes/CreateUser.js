@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const User = require("../modules/User");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const jwtSecret = "NameDevPandhiMyFirstMERNProject#"
 
 router.post(
   "/createuser",
@@ -17,10 +20,15 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
+    //password hashing
+    const salt = await bcrypt.genSalt(10);
+    let securePassword = await bcrypt.hash(req.body.password, salt);
+
     try {
       const newUser = await User.create({
         name: req.body.name,
-        password: req.body.password,
+        // password: req.body.password,
+        password: securePassword,
         email: req.body.email,
         location: req.body.location,
       });
@@ -57,11 +65,21 @@ router.post(
         return res.status(400).json({ errors: "Try logging in with correct credentials" });
       }
 
-      if (req.body.password !== userData.password) {
+      const comparePassword = bcrypt.compare(req.body.password, userData.password);
+
+      if (!comparePassword) {
         return res.status(400).json({ errors: "Try logging in with correct credentials" });
       }
 
-      return res.json({ success: true });
+      const data = {
+        user: {
+          id: userData.id
+        }
+      }
+
+      const authToken = jwt.sign(data, jwtSecret )
+
+      return res.json({ success: true, authToken:authToken });
     } catch (err) {
       console.error(err);
       res.json({ success: false });

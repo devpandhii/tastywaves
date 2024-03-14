@@ -1,37 +1,44 @@
-import React from 'react'
+import React from 'react';
 
-const Cards = () => {
+const Cards = (props) => {
+
+  let options = props.options;
+  let priceOptions = Object.keys(options);
+
   return (
     <div>
-        <div className="card mt-3" style={{ width: "18rem", maxHeight: "360px" }}>
+      <div className="card mt-3" style={{ width: "20rem", maxHeight: "500px" }}>
         <img
-          src="https://source.unsplash.com/random/900x700/?nachos"
+          src={props.imgsrc}
           alt="Chilli Paneer"
           className="card-img-top"
         />
         <div className="card-body">
-          <h5 className="card-title">Card title</h5>
-          <p className="card-text">Some quick example text.</p>
-          <div>
-            <select className="m-2 h-100 bg-success rounded">
-              {Array.from(Array(6), (e, i) => {
-                return (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                );
-              })}
-            </select>
-            <select className="m-2 h-100 bg-success rounded">
-              <option value="half">Half</option>
-              <option value="full">Full</option>
-            </select>
+          <h5 className="card-title">{props.foodName}</h5>
+          <p className="card-text">{props.foodDiscription}</p>
+          <div className="d-flex align-items-center justify-content-between">
+            <div>
+              <select className="m-2 h-100 bg-success rounded">
+                {Array.from(Array(6), (e, i) => {
+                  return (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  );
+                })}
+              </select>
+              <select className="m-2 h-100 bg-success rounded">
+                {priceOptions.map((data) => {
+                  return <option key={data} value={data}>{data}</option>
+                })}
+              </select>
+            </div>
             <div className="d-inline h-100 fs-5">Total Price:</div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Cards
+export default Cards;
