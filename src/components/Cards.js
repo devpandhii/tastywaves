@@ -12,6 +12,7 @@ const Cards = (props) => {
           src={props.imgsrc}
           alt="Chilli Paneer"
           className="card-img-top"
+          style={{ height: "120px", objectFit: "fill"}}
         />
         <div className="card-body">
           <h5 className="card-title">{props.foodName}</h5>
