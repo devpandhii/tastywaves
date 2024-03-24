@@ -40,18 +40,20 @@ const Cards = (props) => {
   // };
 
   const handleAddtoCart = async () => {
-    console.log("qty: ", qty)
-    let food = []
+    console.log("qty: Mihir ", qty)
+    let food=1;
+    
     for (const item of data) {
       if (item.id === foodItem._id) {
         food = item;
-
+        item.qty=qty;
+        item.price=qty*options[size];
         break;
       }
     }
     
     console.log(new Date())
-    if (food.length !== 0) {
+    if (food) {
       if (food.size === size) {
         await dispatch({ type: "UPDATE", id: foodItem._id, price: finalPrice, qty: qty })
         return
@@ -63,10 +65,10 @@ const Cards = (props) => {
       }
       return
     }
-    console.log(food)
+    
 
     await dispatch({ type: "ADD", id: foodItem._id, name: foodItem.name, price: finalPrice, qty: qty, size: size })
-
+    console.log(food)
 
     // setBtnEnable(true)
 
