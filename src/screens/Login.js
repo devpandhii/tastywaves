@@ -31,6 +31,7 @@ const Login = () => {
     }
 
     if (newUser.success) {
+      localStorage.setItem("userEmain", credentials.email)
       localStorage.setItem("authToken", newUser.authToken)
       console.log(localStorage.getItem("authToken"));
       navigate("/");

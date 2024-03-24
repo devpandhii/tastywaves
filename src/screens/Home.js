@@ -18,7 +18,6 @@ const Home = () => {
         }
       });
       response = await response.json();
-      console.log(response.food_items, response.food_category);
       setFoodItem(response.food_items); // assuming these are arrays of items
       setFoodCat(response.food_category);
     } catch (error) {
@@ -99,9 +98,9 @@ const Home = () => {
                 .map(filterItem => (
                   <div key={filterItem._id} className="col-12 col-md-6 col-lg-3">
                     <Cards 
-                      foodName={filterItem.name} // Access name property of each item
+                      foodItem = {filterItem}// Access name property of each item
                       options={filterItem.options[0]} // Access options property of each item
-                      imgsrc={filterItem.img} // Access img property of each item
+                      // Access img property of each item
                       foodDiscription = {filterItem.d}
                     />
                   </div>
