@@ -2,7 +2,7 @@ import React from 'react';
 import { useCart, useDispatch } from "../components/ContextReducer.js";
 // import trash from "../assets/trash.svg";
 import { FaTrash } from 'react-icons/fa';
-import { header } from 'express-validator';
+// import { header } from 'express-validator';
 
 
 
@@ -19,8 +19,15 @@ export default function Cart() {
 
     const handleCheckOut = async () => {
         let userEmail = localStorage.getItem("userEmail");
+        console.log(userEmail);
+        console.log(JSON.stringify({
+            order_data: data,
+            order_date: new Date().toDateString(),
+            email: userEmail,
+        }));
+
         let response = await fetch(
-            "http://localhost:5000/api/orderData", {
+            "http://localhost:5000/api/orderdata", {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -31,12 +38,14 @@ export default function Cart() {
                 email: userEmail,
             })
         });
+
         console.log("i'm here", response);
+        console.log(data);
         if (response.status === 200) {
             dispatch({ type: "DROP" });
             alert("Your Order has been placed");
         }
-        
+
     }
 
     let totalPrice = data.reduce((total, food) => total + food.price, 0);

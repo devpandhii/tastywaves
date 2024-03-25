@@ -29,7 +29,7 @@ const Navbar = () => {
             </li>
             {(localStorage.getItem("authToken")) ?
               <li class="nav-item">
-                <Link class="nav-link active fs-5" to="/">My Orders</Link>
+                <Link class="nav-link active fs-5" to="/myorderdata">My Orders</Link>
               </li> :
               ""}
 

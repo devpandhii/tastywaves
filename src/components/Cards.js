@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useCart, useDispatch } from './ContextReducer';
 
 const Cards = (props) => {
+  
   let data = useCart();
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const [size, setSize] = useState('');
   const priceRef = useRef();
@@ -40,8 +41,10 @@ const Cards = (props) => {
   // };
 
   const handleAddtoCart = async () => {
-    console.log("qty: Mihir ", qty)
+    console.log("qty: ", qty)
     let food=1;
+    let userEmail = localStorage.getItem("userEmail");
+    console.log(userEmail);
     
     for (const item of data) {
       if (item.id === foodItem._id) {
@@ -53,6 +56,7 @@ const Cards = (props) => {
     }
     
     console.log(new Date())
+    console.log(data)
     if (food) {
       if (food.size === size) {
         await dispatch({ type: "UPDATE", id: foodItem._id, price: finalPrice, qty: qty })

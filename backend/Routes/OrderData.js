@@ -2,36 +2,36 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Orders');
 
-router.post('/orderData', async (req, res) => {
-    let data = req.body.order_data;
-    await data.splice({ Order_date: req.body.order_date });
+router.post('/orderdata', async (req, res) => {
+    try {
+        const { order_data, order_date, email } = req.body;
 
-    let eId = await Order.findOne({ email: req.body.email });
-    console.log(eId);
+        const ordersWithDate = order_data.map(item => ({ ...item, order_date }));
 
-    if(eId === null){
-        try {
-            await Order.create({
-                email: req.body.email,
-                order_data: data,
-            }).then((order) => {
-                res.json({ success: True });
-            });
-        } catch (error) {
-            console.log(error);
-            res.send("Server Error", error.message);
+        let existingOrder = await Order.findOne({ email });
+
+        if (!existingOrder) {
+            await Order.create({ email, order_data: ordersWithDate });
+        } else {
+            existingOrder.order_data.push(...ordersWithDate);
+            await existingOrder.save();
         }
+
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.error("Error processing order:", error);
+        res.status(500).json({ success: false, error: "Internal Server Error" });
     }
-    else{
-        try {
-            await Order.findOneAndUpdate({ email: req.body.email }, { $push: { order_data: data } }, { new: true, useFindAndModify: false }).then(() => {
-                res.status(200).json({ success: true });
-            })  
-        }
-        catch (error) {
-            res.status(500).json({ success: false, error: error.message });
-        }
+});
+
+router.post('/myorderdata', async (req, res) => {
+    try {
+        let myData = await Order.findOne({ email: req.body.email});
+        res.json({orderData: myData.order_data}); // Adjusted here to return myData.order_data
+    } catch(error){
+        console.error("Error processing MyOrder:", error);
+        res.status(500).json({ success: false, error: "Internal Server Error" });
     }
-})
+});
 
 module.exports = router;
