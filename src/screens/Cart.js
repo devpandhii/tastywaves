@@ -18,6 +18,7 @@ export default function Cart() {
     }
 
     const handleCheckOut = async () => {
+        console.log(data);
         let userEmail = localStorage.getItem("userEmail");
         console.log(userEmail);
         console.log(JSON.stringify({

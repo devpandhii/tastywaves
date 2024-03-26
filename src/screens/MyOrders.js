@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-export default function MyOrders() {
+export default function MyOrders(props) {
     const [orderData, setOrderData] = useState([]);
-
     useEffect(() => {
         fetchMyOrder();
     }, []);
@@ -62,7 +61,9 @@ export default function MyOrders() {
                                 </div>
                             </div>
                         )) :
-                        <div>No orders found</div>
+                        <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '18px', color: '#666' }}>
+                            No orders found
+                        </div>
                     }
                 </div>
             </div>
